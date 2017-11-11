@@ -86,7 +86,7 @@ define('transfer', function (require) {
 					type: 'POST'
 				});
 			request.complete(function(jqXHR, textStatus) {
-				respCode = jqXHR.status;
+				respCode = jqXHR.responseJSON;
 			});
 			return respCode;
 		},
