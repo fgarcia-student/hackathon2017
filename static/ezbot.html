@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>
+		EzBanking - Lorem ipsum...
+	</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script data-main="js/lib/capital_one" src="js/lib/require-jquery.js"></script>
+    <!-- <script src="js/app.js"></script> -->
+    <style>
+    button#audio{display: none;}
+
+   p#user{
+    text-align: left;
+    color: blue;  }
+
+  p#bot{
+    text-align: right;
+    color: red;
+  }
+  .speech {border: 1px solid #DDD; width: 300px; padding: 0; margin: 0}
+  .speech input {border: 0; width: 240px; display: inline-block; height: 30px;}
+  .speech img {float: right; width: 40px }
+</style>
+</head>
+<body>
+	
+	<script>
+
+  if ('speechSynthesis' in window) {
+ // Synthesis support. Make your web apps talk!
+ console.log("Synthesis support. Make your web apps talk!")
+ $("#audio").show();
+ $("#audioDisabled").hide();
+}
+  
+  var speechBool = false;
+
+
+function audio(){
+  speechBool = true;
+$("#audio").hide();
+$("#audioDisabled").show();
+console.log("audio enabled");
+}
+
+function audioDis(){
+  speechBool = false;
+  $("#audioDisabled").hide();
+  $("#audio").show();
+  console.log("audio disabled");
+}
+const URL = "http://api.reimaginebanking.com";
+    const KEY = "e7150808ddce2e6692381d1667d36855"; //api key to access data on cap1 end point
+
+    const CUST_2 = "5a063c1da73e4942cdafe87b"; //2 accounts
+    const CUST_2_ACCT_ID = "5a063c1ea73e4942cdafe87d";
+    const TRANSFER_ACCT = "5a063c1ea73e4942cdafe87e";
+
+  var speakThis = "";
+
+function getCustomerAccountInfoCUST_2() {
+
+  $.ajax({
+    type: "GET",
+    url: `${URL}/customers/${CUST_2}/accounts?key=${KEY}`,
+    success: function(arg) {
+      console.log(arg);
+       // for(i=0;arg.length;i++){
+         let string = JSON.stringify(arg[0]);
+        console.log(string);
+        let obj = JSON.parse(string);
+        speakThis = "your account balance is "+ obj.balance + " dollar";
+        $("#message").append("<p id='bot'>"+speakThis+"</p>");
+       audioSpeak(speakThis);
+       }
+    });
+}
+
+function getCustomerBillsInfo(id) {
+    id = CUST_2;
+    require(['bills'], function(bills) {
+        let custBill = bills.initWithKey(KEY);
+        let b = custBill.getAllByCustomerId(id);
+          speakThis = "You currently have no billings due.";
+          $("#message").append("<p id='bot'>"+speakThis+"</p>");
+          audioSpeak(speakThis);
+        console.log(b);
+    });
+}
+
+function makeLoan(id) {
+    id = CUST_2;
+    let loan = {
+        "type": "home",
+        "status": "pending",
+        "credit_score": 687,
+        "monthly_payment": 25,
+        "amount": 100,
+        "description": "ksdjfjksjdk"
+    };
+
+    $.ajax({
+        type: "POST",
+        url: `${URL}/accounts/${CUST_2_ACCT_ID}/loans?key=${KEY}`,
+        data: JSON.stringify(loan),
+        contentType: 'application/json',
+        success: function(arg) {
+            console.log(arg);
+            let str = JSON.stringify(arg);
+            let obj = JSON.parse(str);
+            speakThis = "You now have a pending loan of a hundred dollars. Your estimated monthly payment will be " + obj.objectCreated.monthly_payment + " dollars";
+            $("#message").append("<p id='bot'>"+speakThis+"</p>");
+            audioSpeak(speakThis);
+        }
+    });
+}
+
+
+
+function audioSpeak(content){
+  if(speechBool == true){
+  const msg = new SpeechSynthesisUtterance(content);
+  window.speechSynthesis.speak(msg);
+    }
+  
+}
+
+
+function doThis(){
+//  $("#message").empty();
+  let input = $("#transcript").val();
+//psuedo a.i code
+  $("#message").append("<p id='user'> You: "+input+"</p>");
+  console.log(input);
+  checkString(input);
+  return false;
+}
+
+function checkString(string){
+  let lowerS = string.toLowerCase();
+  console.log(string);
+  if(lowerS == "what is savings account"){
+    speakThis = "Savings account is a bank account that earns interest.";
+    $("#message").append("<p id='bot'>"+speakThis+"</p>");
+    audioSpeak(speakThis);
+  }else if(lowerS == "check my balance"){
+    getCustomerAccountInfoCUST_2();
+  }else if(lowerS == "check my billings"){
+    getCustomerBillsInfo();
+  }else if((lowerS == "i want to take out a hundred dollar loan") || (lowerS == "i want to take out a $100 loan")){
+    makeLoan();
+  }else if(lowerS == "how does the thing goes"){
+    speakThis = "the thing goes skraaaaa. pap pap pap pap pap. skividi pap pap. and a poo poo purrrrr poom. skyaaaaa";
+    $("#message").append("<p id='bot'>"+ speakThis+"</p>");
+    audioSpeak(speakThis);
+  }
+  else{
+    speakThis = "Im not that advanced yet.";
+    $("#message").append("<p id='bot'>"+ speakThis+"</p>");
+    audioSpeak(speakThis);
+  }
+}
+
+function updateLang(sel) {
+  var value = sel.options[sel.selectedIndex].value;
+  $("#lang").val = value;
+  console.log($('#lang').val());
+  localStorage['language'] = value;
+}
+  function startDictation() {
+
+    //this.doThis();
+    
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+     // $("#message").empty();
+
+      var recognition = new webkitSpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = $('#lang').val();
+      recognition.start();
+
+      recognition.onresult = function(e) {
+        document.getElementById('transcript').value
+                                 = e.results[0][0].transcript;
+        recognition.stop();
+        let getIt = $("#transcript").val();
+        //psuedo a.i code
+        $("#message").append("<p id='user'> You: "+getIt+"</p>");
+        console.log(getIt);
+        checkString(getIt);
+        audioSpeak(speakThis);
+        //document.getElementById('labnol').submit();
+       // this.doThis();
+
+      };
+
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+  }
+</script>
+<h1> EzBot! </h1>
+<div id="message" style="border-style: solid; width: 400px; height: 400px;
+overflow-y: auto-scroll;">
+
+
+
+</div>
+<!-- Search Form -->
+<form id="labnol" onsubmit="return doThis()">
+  <div class="speech">
+    <input type="text" name="q" id="transcript" placeholder="Speak" />
+    <img onclick="startDictation()" src="https://i.imgur.com/cHidSVu.gif" />
+  </div>
+</form>
+
+<button id="audio" onclick="audio()">Audio Enabled</button>
+<button id="audioDisabled" onclick="audioDis()">Audio Disabled</button>
+
+<span class="language">
+ <select name="lang" id="lang" onchange="updateLang(this)">
+        <option value="af-ZA">Afrikaans</option>
+        <option value="id-ID">Bahasa Indonesia</option>
+        <option value="ms-MY">Bahasa Melayu</option>
+        <option value="ca-ES">Català</option>
+        <option value="cs-CZ">Čeština</option>
+        <option value="da-DK">Dansk</option>
+        <option value="de-DE">Deutsch</option>
+        <optgroup label="English">
+          <option value="en-AU">Australia</option>
+          <option value="en-CA">Canada</option>
+          <option value="en-IN">India</option>
+          <option value="en-NZ">New Zealand</option>
+          <option value="en-ZA">South Africa</option>
+          <option value="en-GB">United Kingdom</option>
+          <option value="en-US" selected="">United States</option>
+        </optgroup>
+        <optgroup label="Español">
+          <option value="es-AR">Argentina</option>
+          <option value="es-BO">Bolivia</option>
+          <option value="es-CL">Chile</option>
+          <option value="es-CO">Colombia</option>
+          <option value="es-CR">Costa Rica</option>
+          <option value="es-EC">Ecuador</option>
+          <option value="es-SV">El Salvador</option>
+          <option value="es-ES">España</option>
+          <option value="es-US">Estados Unidos</option>
+          <option value="es-GT">Guatemala</option>
+          <option value="es-HN">Honduras</option>
+          <option value="es-MX">México</option>
+          <option value="es-NI">Nicaragua</option>
+          <option value="es-PA">Panamá</option>
+          <option value="es-PY">Paraguay</option>
+          <option value="es-PE">Perú</option>
+          <option value="es-PR">Puerto Rico</option>
+          <option value="es-DO">República Dominicana</option>
+          <option value="es-UY">Uruguay</option>
+          <option value="es-VE">Venezuela</option>
+        </optgroup>
+        <option value="eu-ES">Euskara</option>
+        <option value="fil-PH">Filipino</option>
+        <option value="fr-FR">Français</option>
+        <option value="gl-ES">Galego</option>
+        <option value="hi-IN">हिन्दी</option>
+        <option value="hr_HR">Hrvatski</option>
+        <option value="zu-ZA">IsiZulu</option>
+        <option value="is-IS">Íslenska</option>
+        <optgroup label="Italiano">
+          <option value="it-IT">Italia</option>
+          <option value="it-CH">Svizzera</option>
+        </optgroup>
+        <option value="lt-LT">Lietuvių</option>
+        <option value="hu-HU">Magyar</option>
+        <option value="nl-NL">Nederlands</option>
+        <option value="nb-NO">Norsk bokmål</option>
+        <option value="pl-PL">Polski</option>
+        <optgroup label="Português">
+          <option value="pt-BR">Brasil</option>
+          <option value="pt-PT">Portugal</option>
+        </optgroup>
+        <option value="ro-RO">Română</option>
+        <option value="sl-SI">Slovenščina</option>
+        <option value="sk-SK">Slovenčina</option>
+        <option value="fi-FI">Suomi</option>
+        <option value="sv-SE">Svenska</option>
+        <option value="vi-VN">Tiếng Việt</option>
+        <option value="th-TH">ภาษาไทย</option>
+        <option value="tr-TR">Türkçe</option>
+        <option value="el-GR">Ελληνικά</option>
+        <option value="bg-BG">български</option>
+        <option value="ru-RU">Pусский</option>
+        <option value="sr-RS">Српски</option>
+        <option value="uk-UA">Українська</option>
+        <option value="ko-KR">한국어</option>
+        <optgroup label="中文">
+          <option value="cmn-Hans-CN">普通话 (中国大陆)</option>
+          <option value="cmn-Hans-HK">普通话 (香港)</option>
+          <option value="cmn-Hant-TW">中文 (台灣)</option>
+          <option value="yue-Hant-HK">粵語 (香港)</option>
+        </optgroup>
+        <option value="ja-JP">日本語</option>
+      </select>
+</span>
+
+</body>
+
+
+
+</html>
