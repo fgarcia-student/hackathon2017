@@ -108,11 +108,11 @@ function makeLoan(id) {
 		}
 	});
 }
-// makeTransfer();
-// makeWithdrawal();
-// makeLoan();
-// makeAccount();
-// getCustomerAccountInfo();
-// getCustomerBalanceInfo();
-// getCustomerBillsInfo();
+makeTransfer();
+makeWithdrawal();
+makeLoan();
+makeAccount();
+getCustomerAccountInfo();
+getCustomerBalanceInfo();
+getCustomerBillsInfo();
 });
