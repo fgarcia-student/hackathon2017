@@ -8,10 +8,9 @@ app.listen(3003, () => {
 	console.log('Listening on 3003');
 })
 
- app.get('/',function(req, res){
- 	res.sendFile('index.html');
-
- });
+app.get('/',function(req, res){
+	res.sendFile('index.html');
+});
 
 
 app.get('*', function(req,res){
