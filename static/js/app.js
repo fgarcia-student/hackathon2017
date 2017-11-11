@@ -18,16 +18,24 @@ function getCustomerAccountInfoCUST_1() {
 }
 
 function makeAccountForCUST_1() {
+
+	let account = {
+	  "type": "Credit Card",
+	  "nickname": "EZbank-Capital One",
+	  "rewards": 0,
+	  "balance": 300,
+	};
 	
-	// $.ajax({
-	// 	type: "POST",
-	// 	url: `${URL}/customers/${CUST_1}/accounts?key=${KEY}`,
-	// 	body: 
-	// 	success: function(argument) {
-	// 		// body...
-	// 	}
-	// })
+	$.ajax({
+		type: "POST",
+		url: `${URL}/customers/${CUST_1}/accounts?key=${KEY}`,
+		body: account,
+		success: function(arg) {
+			console.log("Successfully created account for " + arg["customer_id"] + " with balance of " + arg["balance"]);
+		}
+	})
 }
 
 getCustomerAccountInfoCUST_1();
+makeAccountForCUST_1();
 });
