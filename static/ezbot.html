@@ -83,7 +83,7 @@ function getCustomerBillsInfo(id) {
     require(['bills'], function(bills) {
         let custBill = bills.initWithKey(KEY);
         let b = custBill.getAllByCustomerId(id);
-          speakThis = "You currently have no billings due.";
+          speakThis = "You currently have no bills due.";
           $("#message").append("<p id='bot'>"+speakThis+"</p>");
           audioSpeak(speakThis);
         console.log(b);
@@ -147,7 +147,7 @@ function checkString(string){
     audioSpeak(speakThis);
   }else if(lowerS == "check my balance"){
     getCustomerAccountInfoCUST_2();
-  }else if(lowerS == "check my billings"){
+  }else if(lowerS == "check my bills"){
     getCustomerBillsInfo();
   }else if((lowerS == "i want to take out a hundred dollar loan") || (lowerS == "i want to take out a $100 loan")){
     makeLoan();
