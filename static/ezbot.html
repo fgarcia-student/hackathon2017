@@ -151,9 +151,14 @@ function checkString(string){
     getCustomerBillsInfo();
   }else if((lowerS == "i want to take out a hundred dollar loan") || (lowerS == "i want to take out a $100 loan")){
     makeLoan();
-  }else{
+  }else if(lowerS == "how does the thing goes"){
+    speakThis = "the thing goes skraaaaa. pap pap pap pap pap. skividi pap pap. and a poo poo purrrrr poom. skyaaaaa";
+    $("#message").append("<p id='bot'>"+ speakThis+"</p>");
+    audioSpeak(speakThis);
+  }
+  else{
     speakThis = "Im not that advanced yet.";
-    $("#messages").append("<p id='bot'>"+ speakThis+"</p>");
+    $("#message").append("<p id='bot'>"+ speakThis+"</p>");
     audioSpeak(speakThis);
   }
 }
@@ -202,7 +207,7 @@ function updateLang(sel) {
 </script>
 <h1> EzBot! </h1>
 <div id="message" style="border-style: solid; width: 400px; height: 400px;
-overflow-y: scroll;">
+overflow-y: auto-scroll;">
 
 
 
