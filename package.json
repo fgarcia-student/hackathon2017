@@ -1,8 +1,8 @@
 {
   "name": "hackathon2017",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "This project was built using the following:",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

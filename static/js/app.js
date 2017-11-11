@@ -6,16 +6,28 @@ $(document).ready(() => {
 	const CUST_2 = "5a063c1da73e4942cdafe87b";
 	const CUST_3 = "5a063c1ca73e4942cdafe87c";
 
-function createCustomer() {
+function getCustomerAccountInfoCUST_1() {
 
 	$.ajax({
 		type: "GET",
-		url: `${URL}/accounts?key=${KEY}`,
+		url: `${URL}/customers/${CUST_1}/accounts?key=${KEY}`,
 		success: function(arg) {
 			console.log(arg)
 		}
 	});
 }
 
-createCustomer();
+function makeAccountForCUST_1() {
+	
+	// $.ajax({
+	// 	type: "POST",
+	// 	url: `${URL}/customers/${CUST_1}/accounts?key=${KEY}`,
+	// 	body: 
+	// 	success: function(argument) {
+	// 		// body...
+	// 	}
+	// })
+}
+
+getCustomerAccountInfoCUST_1();
 });
