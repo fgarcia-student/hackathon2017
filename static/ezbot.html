@@ -3,28 +3,22 @@
 
 <head>
 	<title>
-		EzBanking - Lorem ipsum...
+		EzBanking
 	</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script data-main="js/lib/capital_one" src="js/lib/require-jquery.js"></script>
     <!-- <script src="js/app.js"></script> -->
+	
+	<link rel="stylesheet" href="css/ezbot.css">
     <style>
-    button#audio{display: none;}
 
-   p#user{
-    text-align: left;
-    color: blue;  }
-
-  p#bot{
-    text-align: right;
-    color: red;
-  }
-  .speech {border: 1px solid #DDD; width: 300px; padding: 0; margin: 0}
-  .speech input {border: 0; width: 240px; display: inline-block; height: 30px;}
-  .speech img {float: right; width: 40px }
+   
 </style>
 </head>
 <body>
+<div class="col-xs-2">
+					<img src = "images/2.png">
+				</div>
 	
 	<script>
 
@@ -205,14 +199,15 @@ function updateLang(sel) {
     }
   }
 </script>
-<h1> EzBot! </h1>
-<div id="message" style="border-style: solid; width: 400px; height: 400px;
+
+<div id="message" style="border-style: ; width: 400px; height: 400px; margin:0 auto;
 overflow-y: auto-scroll;">
 
 
 
 </div>
 <!-- Search Form -->
+
 <form id="labnol" onsubmit="return doThis()">
   <div class="speech">
     <input type="text" name="q" id="transcript" placeholder="Speak" />
@@ -220,8 +215,10 @@ overflow-y: auto-scroll;">
   </div>
 </form>
 
+<div class="buttonHolder">
 <button id="audio" onclick="audio()">Audio Enabled</button>
 <button id="audioDisabled" onclick="audioDis()">Audio Disabled</button>
+</div>
 
 <span class="language">
  <select name="lang" id="lang" onchange="updateLang(this)">
