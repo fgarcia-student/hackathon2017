@@ -1,3 +1,8 @@
 body {
 	/*background-color: white;*/
 }
+
+
+nav.navbar.navbar-toggleable-md.navbar-light.bg-faded {
+	background-color: white;
+}
