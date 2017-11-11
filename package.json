@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/fgarcia-student/hackathon2017/issues"
   },
-  "homepage": "https://github.com/fgarcia-student/hackathon2017#readme"
+  "homepage": "https://github.com/fgarcia-student/hackathon2017#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
