@@ -148,7 +148,7 @@ function checkString(string){
   }else if(lowerS == "how does the thing goes"){
     speakThis = "the thing goes skraaaaa. pap pap pap pap pap. skividi pap pap. and a poo poo purrrrr poom. skyaaaaa";
     $("#message").append("<p id='bot'>"+ speakThis+"</p>");
-    audioSpeak(speakThis);
+    faudioSpeak(speakThis);
   }
   else{
     speakThis = "Im not that advanced yet.";
@@ -186,7 +186,7 @@ function updateLang(sel) {
         $("#message").append("<p id='user'> You: "+getIt+"</p>");
         console.log(getIt);
         checkString(getIt);
-        audioSpeak(speakThis);
+        //audioSpeak(speakThis);
         //document.getElementById('labnol').submit();
        // this.doThis();
 
