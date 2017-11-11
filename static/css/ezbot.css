@@ -1,0 +1,47 @@
+body {
+    background-image: url("https://wallpaperlayer.com/img/2015/7/dark-geometric-wallpaper-761-845-hd-wallpapers.jpg");
+	background-color: white
+}
+
+img{
+	position:relative;
+	float: center;
+	width: 200px;
+	margin: 0 auto;
+	display: block;
+    margin: auto;
+	
+	
+}
+	
+div#message{
+	margin: 0 auto;
+}
+
+h1{
+	color: #F85A16 ;
+	text-align:center;
+}
+
+ button#audio{display: none;}
+
+   p#user{
+    text-align: left;
+    color: #F85A16 ;
+font-size: 20px;	
+	}
+
+  p#bot{
+    text-align: right;
+    color: white;
+	font-size: 20px;
+  }
+  .speech {border: 1px solid #DDD; width: 300px; padding: 0; margin: 0 auto}
+  .speech input {border: 0; width: 240px; display: inline-block; height: 30px;}
+  .speech img {float: right; width: 40px }
+  
+  
+  .buttonHolder {
+  display: ;
+  justify-content: center;
+}
